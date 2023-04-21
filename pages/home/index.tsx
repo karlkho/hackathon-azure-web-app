@@ -106,7 +106,7 @@ const CustomButton = () => {
 
   return (<div style={{ display: 'grid', width: '30%', placeItems: 'center' }}>
 
-    <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+    <button onClick={fileUpload}  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
       <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
       <span>Upload</span>
     </button>
@@ -117,6 +117,23 @@ const CustomButton = () => {
 const SetupConnection = async () => {
 
 
+}
+
+const fileUpload = async () => {
+  console.log('Clicked on file upload')
+  const response = await fetch('https://naughtyfication.azurewebsites.net/api/process', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message: 'File upload'})
+  });
+
+  if (response.ok) {
+    // handle successful response
+  } else {
+    // handle error response
+  }
 }
 
 function Home() {
@@ -135,17 +152,16 @@ function Home() {
     //   }; 
     // })();
 
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://naughtyfication.azurewebsites.net/api/negotiate")
-      .build();
+    // const connection = new signalR.HubConnectionBuilder()
+    //   .withUrl("https://naughtyfication.azurewebsites.net/api/negotiate")
+    //   .build();
 
-    connection.on("ReceiveMessage", (user, message) => {
-      console.log(`Received message from ${user}: ${message}`);
-    });
+    // connection.on("ReceiveMessage", (user, message) => {
+    //   console.log(`Received message from ${user}: ${message}`);
+    // });
 
-    connection.start()
-      .then(() => connection.invoke("send", "Hello"))
-      .catch(console.error);
+    // connection.start()
+    // .then(() => connection.invoke("send", "Hello"));
 
   }, [])
   return (
