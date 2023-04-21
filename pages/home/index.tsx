@@ -152,16 +152,16 @@ function Home() {
     //   }; 
     // })();
 
-    // const connection = new signalR.HubConnectionBuilder()
-    //   .withUrl("https://naughtyfication.azurewebsites.net/api/negotiate")
-    //   .build();
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("https://naughtyfication.azurewebsites.net/api/negotiate")
+      .build();
 
-    // connection.on("ReceiveMessage", (user, message) => {
-    //   console.log(`Received message from ${user}: ${message}`);
-    // });
+    connection.on("ReceiveMessage", (user, message) => {
+      console.log(`Received message from ${user}: ${message}`);
+    });
 
-    // connection.start()
-    // .then(() => connection.invoke("send", "Hello"));
+    connection.start()
+    .then(() => connection.invoke("send", "Hello"));
 
   }, [])
   return (
