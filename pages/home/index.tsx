@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import * as signalR from "@microsoft/signalr";
 
 const notificationsSample = [
   {
@@ -121,18 +122,30 @@ const SetupConnection = async () => {
 function Home() {
 
   useEffect(() => {
-    (async function () { 
-      // let messages = document.querySelector('#messages'); 
-      let res = await fetch(`${window.location.origin}/api/instantiate-websocket`); 
-      let url = await res.json(); let ws = new WebSocket(url.url); 
-      ws.onopen = () => console.log('connected'); 
-      ws.onmessage = event => { 
-        // let m = document.createElement('p'); 
-        // m.innerText = event.data; 
-        // messages.appendChild(m);
-        console.log('Event', event)
-      }; 
-    })();
+    // (async function () { 
+    //   // let messages = document.querySelector('#messages'); 
+    //   let res = await fetch(`https://ambitious-plant-06f879800.3.azurestaticapps.net/api/instantiate-websocket`); 
+    //   let url = await res.json(); let ws = new WebSocket(url.url); 
+    //   ws.onopen = () => console.log('connected'); 
+    //   ws.onmessage = event => { 
+    //     // let m = document.createElement('p'); 
+    //     // m.innerText = event.data; 
+    //     // messages.appendChild(m);
+    //     console.log('Event', event)
+    //   }; 
+    // })();
+
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl("https://naughtyfication-signalr.service.signalr.net;AccessKey=uEK+SJ1syyKV02p5uzxwrWv6iUlUsGUFNwLkQbfNnIo=;Version=1.0;")
+    .build();
+
+    connection.on("ReceiveMessage", (user, message) => {
+      console.log(`Received message from ${user}: ${message}`);
+    });
+
+    connection.start()
+    .then(() => connection.invoke("send", "Hello"));
+
   }, [])
   return (
     <div style={{ display: 'flex' }}>
