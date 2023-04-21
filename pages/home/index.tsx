@@ -137,6 +137,7 @@ const fileUpload = async () => {
 }
 
 function Home() {
+  const [notifications, setNotifications] = useState(notificationsSample)
 
   useEffect(() => {
     // (async function () { 
@@ -156,19 +157,26 @@ function Home() {
       .withUrl("https://naughtyfication.azurewebsites.net/api")
       .build();
 
-    connection.on("ReceiveMessage", (user, message) => {
-      console.log(`Received message from ${user}: ${message}`);
+    connection.on("ReceiveMessage", (message) => {
+      console.log(`Received message from ${message}`);
+      setNotifications([...notifications, {
+        title: 'Notifications success!',
+        content: message,
+        state: 'OK',
+      }]);
     });
 
     connection.start()
-    .then(() => connection.invoke("send", "Hello"));
+    .then(() => connection.invoke("send", "Hello"))
+    .catch(console.error);
 
-  }, [])
+  }, []);
+
   return (
     <div style={{ display: 'flex' }}>
-      <NotificationList notifications={notificationsSample} />
+      <NotificationList notifications={notifications} />
       <CustomButton />
-      <NotificationBar notifications={notificationsSample} />
+      <NotificationBar notifications={notifications} />
     </div>
   )
 }
