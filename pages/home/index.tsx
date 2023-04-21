@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as signalR from "@microsoft/signalr";
 
 const notificationsSample = [
@@ -153,7 +153,7 @@ function Home() {
     // })();
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://naughtyfication.azurewebsites.net/api/negotiate")
+      .withUrl("https://naughtyfication.azurewebsites.net/api")
       .build();
 
     connection.on("ReceiveMessage", (user, message) => {
