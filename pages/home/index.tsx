@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const notificationsSample = [
   {
@@ -113,7 +113,27 @@ const CustomButton = () => {
 }
 
 
+const SetupConnection = async () => {
+
+
+}
+
 function Home() {
+
+  useEffect(() => {
+    (async function () { 
+      // let messages = document.querySelector('#messages'); 
+      let res = await fetch(`${window.location.origin}/api/instantiate-websocket`); 
+      let url = await res.json(); let ws = new WebSocket(url.url); 
+      ws.onopen = () => console.log('connected'); 
+      ws.onmessage = event => { 
+        // let m = document.createElement('p'); 
+        // m.innerText = event.data; 
+        // messages.appendChild(m);
+        console.log('Event', event)
+      }; 
+    })();
+  }, [])
   return (
     <div style={{ display: 'flex' }}>
       <NotificationList notifications={notificationsSample} />
