@@ -136,15 +136,16 @@ function Home() {
     // })();
 
     const connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://naughtyfication-signalr.service.signalr.net;AccessKey=uEK+SJ1syyKV02p5uzxwrWv6iUlUsGUFNwLkQbfNnIo=;Version=1.0;")
-    .build();
+      .withUrl("https://naughtyfication.azurewebsites.net/api/negotiate")
+      .build();
 
     connection.on("ReceiveMessage", (user, message) => {
       console.log(`Received message from ${user}: ${message}`);
     });
 
     connection.start()
-    .then(() => connection.invoke("send", "Hello"));
+      .then(() => connection.invoke("send", "Hello"))
+      .catch(console.error);
 
   }, [])
   return (
